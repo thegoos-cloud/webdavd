@@ -48,7 +48,7 @@ RUN set -exu \
 # Configure nginx
 COPY src/nginx.conf /etc/nginx/nginx.conf
 COPY src/nginx-default.conf /etc/nginx/conf.d/default.conf
-COPY src/nginx-fancyindex-theme /var/www/fancyindex
+COPY src/nginx-fancyindex-theme/theme /var/lib/nginx/html/fi
 COPY src/create-users.sh /webdavd/create-users.sh
 
 # Configure php-fpm
