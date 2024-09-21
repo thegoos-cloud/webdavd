@@ -35,16 +35,16 @@ RUN set -exu \
   && adduser \
     --disabled-password \
     --gecos "" \
-    --ingroup webdav \
+    --ingroup webdavd \
     --no-create-home \
     --uid 1101 \
     webdavd \
-  && mkdir -p /webdav
+  && mkdir -p /webdavd/shared
 
 # Configure nginx
 COPY src/nginx-default.conf /etc/nginx/conf.d/default.conf
-COPY src/nginx-fancyindex-theme /fancyindex
-COPY src/create-users.sh /create-users.sh
+COPY src/nginx-fancyindex-theme /var/www/fancyindex
+COPY src/create-users.sh /webdavd/create-users.sh
 
 # Configure php-fpm
 COPY src/fpm-pool.conf /etc/php83/php-fpm.d/www.conf
