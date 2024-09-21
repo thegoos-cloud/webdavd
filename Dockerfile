@@ -11,6 +11,7 @@ RUN set -exu \
       curl \
       nginx \
       nginx-mod-http-fancyindex \
+      nginx-mod-http-dav-ext \
       php83 \
       php83-ctype \
       php83-curl \
