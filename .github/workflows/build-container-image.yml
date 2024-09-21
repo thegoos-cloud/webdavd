@@ -3,7 +3,7 @@ on:
   # build when push to main or release happens
   push:
     branches:
-      - master
+      - main
 
   # allow manual execution
   workflow_dispatch:
