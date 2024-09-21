@@ -8,11 +8,9 @@ RUN set -exu \
   && apk add --no-cache \
       bash \
       apache2-utils \
-      curl \
       nginx \
       nginx-mod-http-fancyindex \
-      nginx-mod-http-dav-ext \
-      supervisor
+      nginx-mod-http-dav-ext
 
 RUN set -exu \
   && addgroup \
@@ -31,10 +29,7 @@ RUN set -exu \
 COPY src/nginx.conf /etc/nginx/nginx.conf
 COPY src/nginx-default.conf /etc/nginx/conf.d/default.conf
 COPY src/nginx-fancyindex-theme/theme /var/lib/nginx/html/fi
-COPY src/create-users.sh /webdavd/create-users.sh
-
-# Configure supervisord
-COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY src/entrypoint.sh /webdavd/entrypoint.sh
 
 # Expose the port nginx is reachable on
 EXPOSE 8080
@@ -50,5 +45,5 @@ RUN set -exu \
 # Switch to webdavd user
 USER webdavd
 
-# Let supervisord start nginx & php-fpm
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Create webdav user and start nginx
+CMD ["/bin/bash", "/entrypoint.sh"]
