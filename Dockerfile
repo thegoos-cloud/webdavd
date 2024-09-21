@@ -6,6 +6,8 @@ USER root
 # Install packages and remove default server definition
 RUN set -exu \
   && apk add --no-cache \
+      bash \
+      apache2-utils \
       curl \
       nginx \
       php83 \
