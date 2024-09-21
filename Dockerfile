@@ -10,6 +10,7 @@ RUN set -exu \
       apache2-utils \
       curl \
       nginx \
+      nginx-mod-http-fancyindex \
       php83 \
       php83-ctype \
       php83-curl \
