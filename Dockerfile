@@ -31,20 +31,20 @@ RUN set -exu \
 RUN set -exu \
   && addgroup \
     --gid 1101 \
-    webdav \
+    webdavd \
   && adduser \
     --disabled-password \
     --gecos "" \
     --ingroup webdav \
     --no-create-home \
     --uid 1101 \
-    webdav \
+    webdavd \
   && mkdir -p /webdav
 
 # Configure nginx
 COPY src/nginx-default.conf /etc/nginx/conf.d/default.conf
-
 COPY src/nginx-fancyindex-theme /fancyindex
+COPY src/create-users.sh /create-users.sh
 
 # Configure php-fpm
 COPY src/fpm-pool.conf /etc/php83/php-fpm.d/www.conf
@@ -58,6 +58,10 @@ COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Expose the port nginx is reachable on
 EXPOSE 8080
+
+
+# Switch to webdavd user
+USER webdavd
 
 # Let supervisord start nginx & php-fpm
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

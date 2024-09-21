@@ -7,7 +7,7 @@
 
 ## Volumes
 
-- /webdav
+- /shared
 
 ## UID/GID
 
