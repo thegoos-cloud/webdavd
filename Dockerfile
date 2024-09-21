@@ -46,4 +46,4 @@ RUN set -exu \
 USER webdavd
 
 # Create webdav user and start nginx
-CMD ["/bin/bash", "/entrypoint.sh"]
+CMD ["/bin/bash", "/webdavd/entrypoint.sh"]
