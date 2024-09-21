@@ -44,14 +44,14 @@ RUN set -exu \
 # Configure nginx
 COPY src/nginx-default.conf /etc/nginx/conf.d/default.conf
 
-COPY src/fancyindex /fancyindex
+COPY src/fancyindex/nginx-fancyindex-theme /fancyindex
 
 # Configure php-fpm
 COPY src/fpm-pool.conf /etc/php83/php-fpm.d/www.conf
 COPY src/php.ini /etc/php83/conf.d/custom.ini
 
 # Configure supervisord
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Make sure files/folders needed by the processes are accessable when they run under the webdav user
 # RUN chown -R webdav:webdav /var/www/html /run /var/lib/nginx /var/log/nginx
