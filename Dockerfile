@@ -39,9 +39,10 @@ RUN set -exu \
     --no-create-home \
     --uid 1101 \
     webdavd \
-  && mkdir -p /webdavd/shared
+  && mkdir -p /webdavd/shared /webdavd/htpasswd
 
 # Configure nginx
+COPY src/nginx.conf /etc/nginx/nginx.conf
 COPY src/nginx-default.conf /etc/nginx/conf.d/default.conf
 COPY src/nginx-fancyindex-theme /var/www/fancyindex
 COPY src/create-users.sh /webdavd/create-users.sh
@@ -59,6 +60,12 @@ COPY src/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Expose the port nginx is reachable on
 EXPOSE 8080
 
+RUN set -exu \
+  && chown -R webdavd:webdavd \
+    /run \
+    /webdavd/htpasswd \
+    /var/lib/nginx/logs \
+    /var/log/nginx
 
 # Switch to webdavd user
 USER webdavd

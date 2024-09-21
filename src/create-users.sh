@@ -2,5 +2,5 @@
 set -e
 
 if [ ! -z "$DAVUSER" ]; then
-  htpasswd -bcd /tmp/htpasswd $DAVUSER $DAVPASSWORD
+  htpasswd -bcd /webdavd/htpasswd/htpasswd $DAVUSER $DAVPASSWORD
 fi
