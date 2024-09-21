@@ -67,7 +67,7 @@ RUN set -exu \
   && chown -R webdavd:webdavd \
     /run \
     /webdavd/htpasswd \
-    /var/lib/nginx/logs \
+    /var/lib/nginx \
     /var/log/nginx
 
 # Switch to webdavd user
