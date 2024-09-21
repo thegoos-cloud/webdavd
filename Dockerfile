@@ -44,7 +44,7 @@ RUN set -exu \
 # Configure nginx
 COPY src/nginx-default.conf /etc/nginx/conf.d/default.conf
 
-COPY src/fancyindex /fancyindex
+COPY src/nginx-fancyindex-theme /fancyindex
 
 # Configure php-fpm
 COPY src/fpm-pool.conf /etc/php83/php-fpm.d/www.conf
