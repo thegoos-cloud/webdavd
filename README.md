@@ -1,18 +1,30 @@
 # Docker Image for webdav server
 
-## Parameters
+Very basic nginx-as-webdavd+fancyindex container.
 
-- DAVUSER (default user)
-- DAVPASSWORD (default pass)
+## Envvar Parameters
+
+```bash
+# (Optional) Automatically create user at startup:
+DAV_USER="areallycooluser"
+DAV_PASSWORD="areallygoodpassword"
+
+# UID/GID to run as
+USER_ID="1101"
+GROUP_ID="1101"
+```
 
 ## Volumes
 
-- /webdavd/shared
-
-## UID/GID
-
-- 1101:1101
+|Mount                          | Purpose
+|---                            | ---
+|/webdavd/shared                | folder to share
+|/webdavd/htpasswd/htpasswd     | override generated htpasswd
+|/var/lib/nginx/html/fi/        | override fancyindex theme
+|/webdavd/entrypoint.sh         | override entrypoint script
+|/etc/nginx/nginx.conf          | override nginx global conf
+|/etc/nginx/conf.d/default.conf | override nginx site conf
 
 ## Ports
 
-- 8080
+`8080/tcp/http`

@@ -11,7 +11,7 @@ body {
 }
 
 .navbar {
-	background-color: #3747bb;
+	background-color: #37bb37;
 	color: white;
 	min-height: 24px;
 	padding: 0 8;
@@ -31,7 +31,7 @@ ol.breadcrumb {
 }
 
 li.breadcrumb-item a {
-	color: #3747bb
+	color: #37bb37
 }
 
 #list a, #list a:hover, #list a:focus {
@@ -39,7 +39,7 @@ li.breadcrumb-item a {
 }
 
 #list th a, #list th a:hover, #list th a:focus {
-	color: #3747bb;
+	color: #37bb37;
 }
 
 #list .thead-dark th a, #list .thead-dark th a:hover, #list .thead-dark th a:focus {
@@ -62,5 +62,5 @@ li.breadcrumb-item a {
 	margin-bottom: 0;
 }
 .footer a, .footer a:hover, .footer a:focus {
-	color: #3747bb;
+	color: #37bb37;
 }

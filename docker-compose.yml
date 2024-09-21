@@ -1,0 +1,14 @@
+services:
+  webdavd:
+    image: "ghcr.io/thegooscloud/webdavd:latest"
+    build: "."
+    restart: "unless-stopped"
+    environment:
+      USER_ID: "1000"
+      GROUP_ID: "1000"
+      DAV_USER: "areallycooluser"
+      DAV_PASSWORD: "areallygoodpassword"
+    volumes:
+      - "./shared:/webdavd/shared:ro"
+    ports:
+      - "8080:8080"
