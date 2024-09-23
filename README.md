@@ -2,6 +2,11 @@
 
 Very basic nginx-as-webdavd+fancyindex container.
 
+## Deployment
+
+docker-compose.yml - docker compose, tested
+deployment.example.yaml - k8s, untested
+
 ## Envvar Parameters
 
 ```bash

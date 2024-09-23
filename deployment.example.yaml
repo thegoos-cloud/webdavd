@@ -1,0 +1,149 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webdavd
+  labels:
+    name: webdavd
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdavd
+  namespace: webdavd
+  labels:
+    app: webdavd
+spec:
+  selector:
+    matchLabels:
+      app: webdavd
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  webdavd
+    spec:
+      initContainers: []
+      containers:
+      - name:  webdavd
+        image:  ghcr.io/thegooscloud/webdavd:latest
+        resources:
+          requests:
+            cpu: 512m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        env:
+        - name: USER_ID
+          value: "1000"
+        - name: GROUP_ID
+          value: "1000"
+        - name: DAV_USER
+          value: "areallycooluser"
+        - name: DAV_PASSWORD
+          value: "areallygoodpassword"
+        ports:
+        - containerPort:  8080
+          name: webdavd
+        volumeMounts:
+          - mountPath: "/webdavd/shared"
+            name: webdavd-shared
+      volumes:
+      - name: webdavd-shared
+        persistentVolumeClaim:
+          claimName: webdavd-shared
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: webdavd-shared
+  namespace: webdavd
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: webdavd-shared
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: default
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webdavd
+  namespace: webdavd
+spec:
+  selector:
+    app: webdavd
+  type: ClusterIP
+  sessionAffinity: None
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  ports:
+  - name: webdavd
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    # If you set the `spec.type` field to `NodePort` and you want a specific port number,
+    # you can specify a value in the `spec.ports[*].nodePort` field.
+    # nodePort: 
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webdavd
+  namespace: webdavd
+spec:
+  rules:
+  - host: webdav.invalid.tld
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: webdavd
+            port:
+              number: 8080
